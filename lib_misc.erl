@@ -6,6 +6,9 @@
 -export([qsort/1]).
 -export([pythag/1]).
 -export([perms/1]).
+-export([all/2]).
+-export([any/2]).
+-export([append/1]).
 
 
 filter(P, [H|T]) -> 
@@ -51,3 +54,22 @@ pythag(N) ->
 
 perms([]) ->[[]];
 perms(L) -> [[H|T] || H <- L, T <- perms(L--[H])].
+
+all(P, [H|T]) ->
+    case P(H) of
+        true -> all(P, T);
+        false -> false
+    end;
+all(P, []) when is_function(P, 1) -> true.
+
+
+any(P, [H|T]) ->
+    case P(H) of
+        true -> true;
+        false -> any(P, T)
+    end;
+any(P, []) when is_function(P, 1) -> false.
+
+append([E]) -> E;
+append([H|T]) -> H ++ append(T);
+append([]) -> [].
