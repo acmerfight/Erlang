@@ -9,6 +9,19 @@
 -export([all/2]).
 -export([any/2]).
 -export([append/1]).
+-export([priority_receive/0]).
+
+
+priority_receive() ->
+    receive
+        {alarm, X} ->
+            {alarm, X}
+    after 0 ->
+        receive
+            Any ->
+                Any
+        end
+    end.
 
 
 filter(P, [H|T]) -> 
