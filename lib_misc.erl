@@ -10,7 +10,13 @@
 -export([any/2]).
 -export([append/1]).
 -export([priority_receive/0]).
+-export([delete/2]).
 
+
+delete(Item, [Item|Rest]) -> Rest;
+delete(Item, [H|Rest]) ->
+    [H|delete(Item, Rest)];
+delete(_, []) -> [].
 
 priority_receive() ->
     receive
