@@ -11,6 +11,15 @@
 -export([append/1]).
 -export([priority_receive/0]).
 -export([delete/2]).
+-export([dropwhile/2]).
+
+
+dropwhile(P, [H|T]=Rest) ->
+    case P(H) of 
+        true -> dropwhile(P, T);
+        false -> Rest
+    end;
+dropwhile(P, []) when is_function(P, 1) -> [].
 
 
 delete(Item, [Item|Rest]) -> Rest;
