@@ -12,6 +12,12 @@
 -export([priority_receive/0]).
 -export([delete/2]).
 -export([dropwhile/2]).
+-export([duplicate/2]).
+
+
+duplicate(N, X) when is_integer(N), N >= 0 -> duplicate(N, X, []).
+duplicate(0, _, L) -> L;
+duplicate(N, X, L) -> duplicate(N-1, X, [X|L]).
 
 
 dropwhile(P, [H|T]=Rest) ->
