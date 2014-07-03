@@ -13,6 +13,17 @@
 -export([delete/2]).
 -export([dropwhile/2]).
 -export([duplicate/2]).
+-export([on_exit/2]).
+
+
+on_exit(Pid, Fun) -> 
+    spawn(fun() -> 
+            Ref = monitor(process, Pid),
+            receive
+                {'DOWN', Ref, process, Pid, Why} -> 
+                    Fun(Why)
+            end
+        end).
 
 
 duplicate(N, X) when is_integer(N), N >= 0 -> duplicate(N, X, []).
