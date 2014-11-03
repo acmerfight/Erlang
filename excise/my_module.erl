@@ -1,8 +1,12 @@
 -module(my_module).
+
 -export([print/1]).
 -export([either_or_both/2]).
 -export([area/1]).
 -export([sum/1]).
+-export([do_sum/1]).
+-export([do_sum/2]).
+
 
 print(Term) ->
     io:format("The value is: ~p.~n", [Term]).
@@ -30,3 +34,10 @@ area(Shape) ->
 
 sum(0) -> 0;
 sum(N) -> sum(N - 1) + N.
+
+
+
+do_sum(N) -> do_sum(N, 0).
+
+do_sum(0, Total) -> Total;
+do_sum(N, Total) -> do_sum(N - 1, Total + N).
