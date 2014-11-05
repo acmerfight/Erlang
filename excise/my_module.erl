@@ -6,6 +6,12 @@
 -export([sum/1]).
 -export([do_sum/1]).
 -export([do_sum/2]).
+-export([rev/1]).
+
+
+rev([A | [B | TheRest]]) -> rev(TheRest) ++ [B, A];
+rev([]) -> [];
+rev([X]) -> [X].
 
 
 print(Term) ->
@@ -22,7 +28,7 @@ either_or_both(A, B) ->
     end.
 
 
-area(Shape) -> 
+area(Shape) ->
     case Shape of
         {circle, Radius} ->
             Radius * Radius * math:pi();
