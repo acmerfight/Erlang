@@ -65,6 +65,7 @@ code_change(_OldVsn, State, _Extra) ->
 
 do_rpc(Socket, RawData) ->
     try
+        io:format("RawData: ~p.~n", [RawData]),
         {M, F, A} = split_out_mfa(RawData),
         Result = apply(M, F, A),
         gen_tcp:send(Socket, io_lib:fwrite("~p~n", [Result]))
@@ -74,7 +75,6 @@ do_rpc(Socket, RawData) ->
     end.
 
 split_out_mfa(RawData) ->
-    io:format()
     MFA = re:replace(RawData, "\r\n$", "", [{return, list}]),
     {match, [M, F, A]} =
         re:run(MFA,
