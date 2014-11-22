@@ -16,11 +16,11 @@
 -export([on_exit/2]).
 
 
-on_exit(Pid, Fun) -> 
-    spawn(fun() -> 
+on_exit(Pid, Fun) ->
+    spawn(fun() ->
             Ref = monitor(process, Pid),
             receive
-                {'DOWN', Ref, process, Pid, Why} -> 
+                {'DOWN', Ref, process, Pid, Why} ->
                     Fun(Why)
             end
         end).
@@ -32,7 +32,7 @@ duplicate(N, X, L) -> duplicate(N-1, X, [X|L]).
 
 
 dropwhile(P, [H|T]=Rest) ->
-    case P(H) of 
+    case P(H) of
         true -> dropwhile(P, T);
         false -> Rest
     end;
@@ -56,25 +56,25 @@ priority_receive() ->
     end.
 
 
-filter(P, [H|T]) -> 
-    case P(H) of 
+filter(P, [H|T]) ->
+    case P(H) of
         true -> [H|filter(P, T)];
         false -> filter(P, T)
     end;
-filter(_, []) -> 
+filter(_, []) ->
     [].
 
 
-odds_and_evens_acc([H|T], Odds, Evens) -> 
-    case (H rem 2) of 
+odds_and_evens_acc([H|T], Odds, Evens) ->
+    case (H rem 2) of
         1 -> odds_and_evens_acc(T, [H|Odds], Evens);
         0 -> odds_and_evens_acc(T, Odds, [H|Evens])
     end;
 
-odds_and_evens_acc([], Odds, Evens) -> 
+odds_and_evens_acc([], Odds, Evens) ->
     {Odds, Evens}.
 
-odds_and_evens(L) -> 
+odds_and_evens(L) ->
     odds_and_evens_acc(L, [], []).
 
 
@@ -88,7 +88,7 @@ qsort([Pivot|T]) ->
     qsort([X || X <- T, X >= Pivot]).
 
 pythag(N) ->
-    [{A, B, C} || 
+    [{A, B, C} ||
         A <- lists:seq(1, N),
         B <- lists:seq(1, N),
         C <- lists:seq(1, N),
