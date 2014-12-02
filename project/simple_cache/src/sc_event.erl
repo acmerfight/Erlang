@@ -12,7 +12,7 @@
 -define(SERVER, ?MODULE).
 
 start_link() ->
-    gen_event:start_link(local, ?SERVER).
+    gen_event:start_link({local, ?SERVER}).
 
 add_handler(Handler, Args) ->
     gen_event:add_handler(?SERVER, Handler, Args).
