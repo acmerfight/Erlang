@@ -7,6 +7,13 @@
 -export([do_sum/1]).
 -export([do_sum/2]).
 -export([rev/1]).
+-export([min_list/1]).
+
+min_list([H|T]) -> min_list(T, H).
+
+min_list([H|T], Min) when H < Min -> min_list(T, H);
+min_list([_|T], Min) -> min_list(T, Min);
+min_list([], Min) -> Min.
 
 
 rev([A | [B | TheRest]]) -> rev(TheRest) ++ [B, A];
