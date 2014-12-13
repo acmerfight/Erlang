@@ -8,6 +8,10 @@
 -export([do_sum/2]).
 -export([rev/1]).
 -export([min_list/1]).
+-export([nth/2]).
+
+nth(1, [H|_]) -> H;
+nth(N, [_|T]) -> nth(N-1, T).
 
 min_list([H|T]) -> min_list(T, H).
 
