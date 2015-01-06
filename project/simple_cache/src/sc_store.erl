@@ -9,16 +9,24 @@
 
 -define(TABLE_ID, ?MODULE).
 
+-record(key_to_pid, {key, pid}).
+
 init() ->
-    ets:new(?TABLE_ID, [public, named_table]),
-    ok.
+    mnesia:start(),
+    mnesia:create_table(
+        key_to_pid,
+        [
+            {index, [pid]},
+            {attributes, record_info(fields, key_to_pid)}
+        ]
+     ).
 
 insert(Key, Pid) ->
-    ets:insert(?TABLE_ID, {Key, Pid}).
+    mnesia:dirty_write(#key_to_pid{key=Key, pid=Pid}).
 
 lookup(Key) ->
-    case ets:lookup(?TABLE_ID, Key) of
-        [{Key, Pid}] -> {ok, Pid};
+    case mensia:dirty_read(key_to_pid, Key) of
+        [{key_to_pid, Key, Pid}] -> {ok, Pid};
         [] -> {error, not_found}
     end.
 
