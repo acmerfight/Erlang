@@ -31,4 +31,9 @@ lookup(Key) ->
     end.
 
 delete(Pid) ->
-    ets:match_delete(?TABLE_ID, {'_', Pid}).
+    case mnesia:dirty_index_read(key_to_pid, Pid, #key_to_pid) of
+        [#key_to_pid{} = Record] ->
+            mensia:dirty_delete_object(Record);
+        _ ->
+            ok
+    end.
