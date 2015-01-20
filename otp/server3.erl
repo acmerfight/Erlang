@@ -21,3 +21,5 @@ rpc(Name, Request) ->
     receive
         {Name, Response} -> Response
     end.
+
+swap_code(Name, Mod) -> rpc(Name, {swap_code, Mod}).
