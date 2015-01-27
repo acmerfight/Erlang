@@ -18,3 +18,20 @@ loop(Name, Mod, OldState) ->
         {From, {swap_code, NewCallbackMod}} ->
             From ! {Name, ok, ack},
             loop(Name, NewCallbackMod, OldState);
+        {From, Request} ->
+            try Mod:handle(Request, OldState) of
+                {Response, NewState} ->
+                    From ! {Name, ok, Response},
+                    loop(Name, Mod, NewState)
+            catch
+                _: Why ->
+                    log_the_error(Name, Request, Why),
+                    From ! {Name, crash},
+                    loop(Name, Mod, OldState)
+            end
+    end.
+
+log_the_error(Name, Request, Why) ->
+    io:format("Server ~p request ~p ~n"
+             "caused exception ~p~n",
+             [Name, Request, Why]).
